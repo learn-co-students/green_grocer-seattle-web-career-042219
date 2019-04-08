@@ -17,6 +17,7 @@ def consolidate_cart(cart)
 end
 
 def apply_coupons(cart, coupons)
+<<<<<<< HEAD
   new_cart = {}
   new_cart = cart
   coupons.each do |key|
@@ -32,6 +33,21 @@ def apply_coupons(cart, coupons)
     end
   end
   new_cart
+=======
+  coupons.each do |coupon|
+    name = coupon[:item]
+    if cart[name] && cart[name][:count] >= coupon[:num]
+      if cart["#{name} W/COUPON"]
+        cart["#{name} W/COUPON"][:count] += 1
+      else
+        cart["#{name} W/COUPON"] = {:count => 1, :price => coupon[:cost]}
+        cart["#{name} W/COUPON"][:clearance] = cart[name][:clearance]
+      end
+      cart[name][:count] -= coupon[:num]
+    end
+  end
+  cart
+>>>>>>> cabf5e1059a0eeb9498feaf1b0775048c619a48d
 end
 
 def apply_clearance(cart)
@@ -51,6 +67,7 @@ def checkout(cart, coupons)
   couponed = apply_coupons(new_cart, coupons)
   discounted = apply_clearance(couponed)
   grand_total = 0.0
+<<<<<<< HEAD
   discounted.each do |key, value|
     if discounted[key][:count] > 0
       i = 0
@@ -64,10 +81,20 @@ def checkout(cart, coupons)
     grand_total = grand_total * 0.9
   end
   #binding.pry
+=======
+  #binding.pry
+  discounted.each do |key, value|
+    grand_total += discounted[key][:price]
+  end
+  if grand_total > 100
+    grand_total = grand_total - (grand_total * 0.1)
+  end
+>>>>>>> cabf5e1059a0eeb9498feaf1b0775048c619a48d
   grand_total
 end
 
 
+<<<<<<< HEAD
 groceries = [{"BEETS" => {:price => 2.50, :clearance => false}}, {"BEETS" => {:price => 2.50, :clearance => false}}]
 coupons = [{:item => "AVOCADO", :num => 2, :cost => 5.00},{:item => "CHEESE", :num => 3, :cost => 15.00}]
 
@@ -75,3 +102,12 @@ cart = consolidate_cart(groceries)
 
 #puts apply_coupons(cart, coupons)
 puts checkout(groceries, coupons)
+=======
+
+groceries = [{"AVOCADO" => {:price => 3.00, :clearance => true}},{"AVOCADO" => {:price => 3.00, :clearance => true}},{"AVOCADO" => {:price => 3.00, :clearance => true}},{"AVOCADO" => {:price => 3.00, :clearance => true}},{"AVOCADO" => {:price => 3.00, :clearance => true}}]
+coupons = [{:item => "AVOCADO", :num => 2, :cost => 5.00},{:item => "AVOCADO", :num => 2, :cost => 5.00}]
+
+cart = consolidate_cart(groceries)
+
+puts apply_coupons(cart, coupons)
+>>>>>>> cabf5e1059a0eeb9498feaf1b0775048c619a48d
