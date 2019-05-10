@@ -2,7 +2,6 @@ require "pry"
 def consolidate_cart(cart)
   cart.each_with_object({}) do |item, result_hash|
     item.each do |item_key, item_value|
-      # binding.pry
       if result_hash[item_key]
         item_value[:count] +=1
       else
